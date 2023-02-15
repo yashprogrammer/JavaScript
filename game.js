@@ -1,21 +1,54 @@
 // alert("Hey! There");
 // console.log($("h1").text("Change using JQUERY"));
 
+
 var buttonColours = ["red","blue","yellow","green"];
 var gamePattern = [];
 var userClickedPattern = [];
+var level = 0;
 
-var randomChoosenColour = buttonColours[nextSequence()];
+var randomChoosenColour;
+var gameOver = false;
 
-gamePattern.push(randomChoosenColour);
 
-blinkAnimation(randomChoosenColour);
+
+
+
+
+
+$(document).keypress(function () {
+    if (level==0) {
+        nextSequence();
+       
+        console.log(randomChoosenColour);
+
+    }
+})
+
+$(".btn").click(function(event){
+    if (level>0) {
+        var userChosenColor = event.target.id;
+        userClickedPattern.push(userChosenColor);
+      
+        playSound(userChosenColor);
+        blinkAnimation(userChosenColor);
+        checkAnswer(userClickedPattern.length-1);
+
+        
+    }
+})
 
 
 
 function nextSequence() {
+    
     var randomNumber = Math.floor(Math.random()*4);
-    return randomNumber;
+    randomChoosenColour = buttonColours[randomNumber];
+    blinkAnimation(randomChoosenColour);
+    playSound(randomChoosenColour);
+    gamePattern.push(randomChoosenColour);
+    level++;
+    $("#level-title").text("level "+level);
 }
 
 function blinkAnimation(randomColor) {
@@ -23,14 +56,29 @@ function blinkAnimation(randomColor) {
 
 }
 
-$(document).keypress(function () {
-    var audio = new Audio("sounds/"+randomChoosenColour+".mp3");
+function playSound(color) {
+    var audio = new Audio("sounds/"+color+".mp3");
     audio.play();
-    console.log("sounds/"+randomChoosenColour+".mp3");
-})
+}
 
-$(".btn").click(function(event){
-    var userChosenColor = event.target.id;
-    userClickedPattern.push(userChosenColor);
-    console.log(userClickedPattern);
-})
+function checkAnswer(currentLevel) {
+    console.log(gamePattern,userClickedPattern,currentLevel);
+    if (gamePattern[currentLevel]===userClickedPattern[currentLevel]) {
+        console.log("sucess");
+    }
+    else{
+        playSound("wrong");
+        $("body").toggleClass("game-over");
+        $("#level-title").text("Game Over, Reload to play again!")
+        gameOver = true;
+    }
+
+    if (gamePattern.length === userClickedPattern.length && !gameOver) {
+        setTimeout(nextSequence,1000);
+        userClickedPattern =[];
+    }
+
+    
+
+}
+
