@@ -14,6 +14,10 @@ var gameOver = false;
 
 
 
+body.addEventListener("touchstart",function (e) {
+    e.preventDefault();
+    $("h1").text("You touched me");
+})
 
 
 $(document).keypress(function () {
