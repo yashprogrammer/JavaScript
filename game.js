@@ -15,8 +15,12 @@ var gameOver = false;
 
 
 document.addEventListener("touchstart",function (e) {
-    $("h1").text("touched me!");
-    console.log(e);
+    if (level==0) {
+        nextSequence();
+       
+        console.log(randomChoosenColour);
+
+    }
 })
 
 
@@ -41,6 +45,7 @@ $(".btn").click(function(event){
         
     }
 })
+
 
 
 
