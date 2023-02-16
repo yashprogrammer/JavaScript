@@ -34,19 +34,41 @@ $(document).keypress(function () {
 })
 
 $(".btn").click(function(event){
-    if (level>0) {
-        var userChosenColor = event.target.id;
-        userClickedPattern.push(userChosenColor);
-      
-        playSound(userChosenColor);
-        blinkAnimation(userChosenColor);
-        checkAnswer(userClickedPattern.length-1);
-
-        
-    }
+    
 })
 
+var allBtn = document.querySelectorAll(".btn");
 
+for (let index = 0; index < allBtn.length; index++) {
+    allBtn[index].addEventListener("touchstart",function (event) {
+        if (level>0) {
+            var userChosenColor = event.target.id;
+            userClickedPattern.push(userChosenColor);
+          
+            playSound(userChosenColor);
+            blinkAnimation(userChosenColor);
+            checkAnswer(userClickedPattern.length-1);
+    
+            
+        }
+        console.log(1);
+    })
+    
+}
+
+// document.addEventListener("touchstart",function (event) {
+//     if (level>0) {
+//         var userChosenColor = event.target.id;
+//         userClickedPattern.push(userChosenColor);
+      
+//         playSound(userChosenColor);
+//         blinkAnimation(userChosenColor);
+//         checkAnswer(userClickedPattern.length-1);
+
+        
+//     }
+//     console.log(1);
+// })
 
 
 function nextSequence() {
